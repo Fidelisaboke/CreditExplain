@@ -26,33 +26,57 @@ The system integrates advanced **RAG techniques** (SELF-RAG critic loop, reranki
 
 ```bash
 creditexplain/
-├─ app/                # Streamlit UI + API (Role C)
-│   ├─ main.py
-│   └─ safety.py
-├─ core/               # Orchestrator, SELF-RAG loop, prompts (Role B)
-│   ├─ self_rag.py
-│   ├─ retrieval.py
-│   ├─ prompts.py
-│   └─ provenance.py
-├─ ingest/             # Loaders, chunkers, embedding/index pipeline (Role A)
-│   ├─ loader.py
-│   ├─ chunker.py
-│   ├─ index.py
-│   └─ normalize.py
-├─ models/             # Critic + reranker configs (Role B)
-│   ├─ critic.py
-│   └─ reranker.py
-├─ vectorstore/        # Persisted Chroma/FAISS DB (Role A)
-├─ eval/               # Metrics, notebooks, audit runs (Role C)
-│   ├─ metrics.py
-│   └─ runs/
-├─ data/               # Sample docs (local; not versioned in Git)
-├─ diagrams/           # Architecture diagrams
-├─ requirements.txt
-├─ Dockerfile
-├─ Makefile
-├─ README.md
-└─ .env.example
+├── api/                   # FastAPI backend
+│   ├── main.py            # Entrypoint: defines app, mounts routers
+│   ├── safety.py          # PII redaction middleware
+│   ├── dependencies.py    # Common dependencies (e.g., DB, settings)
+│
+├── core/                  # Orchestrator, RAG loop, prompts
+│   ├── self_rag.py
+│   ├── retrieval.py
+│   ├── prompts.py
+│   └── provenance.py
+│
+├── ingest/                # Loaders, chunking, embedding pipeline
+│   ├── loader.py
+│   ├── chunker.py
+│   ├── index.py
+│   └── normalize.py
+│
+├── models/                # Critic & reranker configurations
+│   ├── critic.py
+│   └── reranker.py
+│
+├── vectorstore/           # Persisted vector DB (Chroma or FAISS)
+│
+├── eval/                  # Metrics & audit evaluations
+│   ├── metrics.py
+│   └── runs/
+│
+├── data/                  # Sample input documents (not versioned)
+│
+├── diagrams/              # Architecture diagrams
+│
+├── frontend/              # React + Vite UI
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Upload.tsx
+│   │   │   ├── Query.tsx
+│   │   │   └── Metrics.tsx
+│   │   ├── components/
+│   │   │   ├── ExplanationCard.tsx
+│   │   │   ├── CitationPreview.tsx
+│   │   │   └── SidebarQuestions.tsx
+│   │   └── api/axios.ts
+│   ├── vite.config.ts
+│   ├── package.json
+│   └── tailwind.config.js
+│
+├── requirements.txt
+├── Dockerfile
+├── Makefile
+├── README.md
+└── .env.example
 ```
 
 ---
