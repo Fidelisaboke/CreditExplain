@@ -29,25 +29,25 @@ body:
       description: How should this work? Provide flow, UI ideas, or behavior details.
     validations:
       required: true
-- type: checkboxes
-    id: components
-    attributes:
-      label: Affected Components
-      options:
-        - label: Frontend (UI)
-          value: frontend
-        - label: Backend (API)
-          value: backend
-        - label: Ingestion Pipeline
-          value: ingestion-pipeline
-        - label: RAG Pipeline
-          value: rag-pipeline
-        - label: Vector Storage
-          value: vector-storage
-        - label: Documentation
-          value: documentation
-        - label: Other
-          value: other
+  - type: checkboxes
+      id: components
+      attributes:
+        label: Affected Components
+        options:
+          - label: Frontend (UI)
+            value: frontend
+          - label: Backend (API)
+            value: backend
+          - label: Ingestion Pipeline
+            value: ingestion-pipeline
+          - label: RAG Pipeline
+            value: rag-pipeline
+          - label: Vector Storage
+            value: vector-storage
+          - label: Documentation
+            value: documentation
+          - label: Other
+            value: other
   - type: input
     id: estimate_hours
     attributes:
