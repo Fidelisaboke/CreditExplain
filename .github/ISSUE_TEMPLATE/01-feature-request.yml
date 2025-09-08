@@ -1,0 +1,55 @@
+name: Feature Request
+description: Suggest a new feature or enhancement with context and acceptance criteria.
+title: "FEAT: [Short Description of Feature]"
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new feature! Please provide the information below to help us understand and evaluate it.
+  - type: input
+    id: summary
+    attributes:
+      label: Short Summary
+      description: A brief one-line summary of the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation & Context
+      description: Why is this feature needed? What problem will it solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: How should this work? Provide flow, UI ideas, or behavior details.
+    validations:
+      required: true
+  - type: checkboxes
+    id: components
+    attributes:
+      label: Affected Components
+      options:
+        - Frontend (UI)
+        - Backend (API)
+        - Ingestion Pipeline
+        - RAG Pipeline
+        - Vector Storage
+        - Documentation
+        - Other
+  - type: input
+    id: estimate_hours
+    attributes:
+      label: Estimated Time (hours)
+      description: Rough estimate for planning purposes.
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: How will we know this is done? Provide clear, testable criteria.
+    validations:
+      required: true
