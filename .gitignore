@@ -221,6 +221,13 @@ vectorstore/
 # Sample input documents (not versioned)
 data/*
 
-#but don't ignore these
+# Data files (data being ingested)
 !data/raw
 !data/interim
+
+# -- Frontend unignores --
+# Mock data for frontend development
+!frontend/src/data/
+
+# Shadcn/ui lib folder
+!frontend/src/lib/
