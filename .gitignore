@@ -220,3 +220,8 @@ vectorstore/
 
 # Sample input documents (not versioned)
 data/
+
+#but don't ignore these
+!data/interim/rules.json
+!data/interim/borrowers.csv
+!data/raw
