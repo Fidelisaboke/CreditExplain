@@ -38,16 +38,36 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFiles, error, setError }) => 
         e.preventDefault();
     };
 
+    // Card-style upload area with animated dashed border, icon, and focus ring
     return (
-        <div className="border-2 border-dashed rounded-lg p-6 text-center bg-white shadow-sm" onDrop={handleDrop} onDragOver={handleDragOver}>
-            <p className="mb-2 text-gray-700">Drag and drop PDF files here, or</p>
+        <div
+            className="relative flex flex-col items-center justify-center border-2 border-dashed border-accent rounded-xl p-8 bg-card shadow-md transition-all duration-300 focus-within:ring-2 focus-within:ring-primary animate-fade-in"
+            tabIndex={0}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            aria-label="Drag and drop PDF files or select files"
+        >
+            {/* Animated upload icon for visual cue */}
+            <svg
+                className="w-12 h-12 mb-3 text-accent animate-bounce"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2" />
+            </svg>
+            <p className="mb-2 text-muted-foreground text-lg">Drag and drop <span className="font-semibold text-accent">PDF</span> files here, or</p>
+            {/* Accessible button for file selection */}
             <Button
                 type="button"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-5 py-2 bg-primary text-primary-foreground rounded-lg shadow hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition"
                 onClick={() => inputRef.current?.click()}
+                aria-label="Select PDF files"
             >
                 Select Files
             </Button>
+            {/* Hidden file input for accessibility */}
             <Input
                 ref={inputRef}
                 type="file"
@@ -55,8 +75,10 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFiles, error, setError }) => 
                 multiple
                 className="hidden"
                 onChange={e => handleFiles(e.target.files)}
+                aria-label="File input for PDF upload"
             />
-            {error && <p className="mt-2 text-red-500">{error}</p>}
+            {/* Error message with fade-in animation */}
+            {error && <p className="mt-2 text-destructive animate-fade-in" role="alert">{error}</p>}
         </div>
     );
 };
