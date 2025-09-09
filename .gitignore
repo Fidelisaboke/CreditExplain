@@ -219,7 +219,7 @@ __marimo__/
 vectorstore/
 
 # Sample input documents (not versioned)
-data/
+data/*
 
 #but don't ignore these
 !data/interim/rules.json
