@@ -219,7 +219,11 @@ __marimo__/
 vectorstore/
 
 # Sample input documents (not versioned)
-data/
+data/*
+
+# Data files (data being ingested)
+!data/raw
+!data/interim
 
 # -- Frontend unignores --
 # Mock data for frontend development

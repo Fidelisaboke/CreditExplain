@@ -1,0 +1,230 @@
+[
+  {
+    "Rule ID": "R1",
+    "Rule": "All consumers must be treated fairly and without bias throughout the entire relationship, irrespective of their social status, physical ability, marital status, gender, age, religion, tribe, or ideology.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 5,
+      "quote": "Treat consumers equitably without bias at all stages of the relationship. Give consumers who meet the minimum legal and non – discriminatory eligibility requirements, equal access to basic services without regard to their social status, physical ability, marital status, gender, age, religion, tribe or ideology."
+    },
+    "Category": "Fair Treatment",
+    "Risk Type": "Fairness Risk, Compliance Risk",
+    "Fairness Note": "Explicitly prohibits discrimination based on various personal attributes."
+  },
+  {
+    "Rule ID": "R2",
+    "Rule": "Financial institutions must consider the specific needs of vulnerable groups, including low-income individuals, women, seniors, physically challenged persons, and non-literate individuals, when designing and implementing their business models and processes.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 5,
+      "quote": "Consider the needs of the financially excluded, including the vulnerable groups such as low-income consumers, women, seniors, physically challenged and the non-literate in the development and implementation of their business models, strategies and processes."
+    },
+    "Category": "Vulnerable Group Protection",
+    "Risk Type": "Fairness Risk, Compliance Risk",
+    "Fairness Note": "Mandates proactive consideration for vulnerable and financially excluded populations."
+  },
+  {
+    "Rule ID": "R3",
+    "Rule": "Before granting, reviewing, renewing, or restructuring any credit facility, institutions must obtain credit reports from at least two licensed Credit Bureaux.",
+    "source": {
+      "filename": "CBN approved credit bureau guidelines.pdf",
+      "page": 14,
+      "quote": "All Banks and Other Financial Institutions must obtain credit reports from at least two (2) licensed Credit Bureaux before granting any new credit facility, or when reviewing, renewing or restructuring an existing facility."
+    },
+    "Category": "Credit Bureau Check",
+    "Risk Type": "Credit Risk, Compliance Risk",
+    "Fairness Note": "Ensures a standardized, comprehensive credit assessment process for all applicants."
+  },
+  {
+    "Rule ID": "R4",
+    "Rule": "All credit decisions must be based on a comprehensive assessment of the consumer's ability to repay sustainably, considering their financial situation; credit information from bureaux should be a tool, not the sole deciding factor.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 16,
+      "quote": "Before granting credit to consumers, assess their capability to repay in a sustainable manner taking into consideration their financial circumstances."
+    },
+    "Category": "Repayment Capacity",
+    "Risk Type": "Credit Risk, Compliance Risk",
+    "Fairness Note": "Prevents blanket denials based solely on credit report data, allowing for holistic financial assessment."
+  },
+  {
+    "Rule ID": "R5",
+    "Rule": "A user must obtain the explicit written consent of a data subject before requesting their credit report from a Credit Bureau, unless legally mandated by a law enforcement agency, regulatory body, or court order.",
+    "source": {
+      "filename": "CBN approved credit bureau guidelines.pdf",
+      "page": 14,
+      "quote": "Every User shall be required to obtain the consent of a Data Subject before requesting for the credit report of that Data Subject from licensed Credit Bureaux."
+    },
+    "Category": "Data Subject Consent",
+    "Risk Type": "Privacy Risk, Compliance Risk",
+    "Fairness Note": "Upholds the data subject's right to privacy and control over their personal information."
+  },
+  {
+    "Rule ID": "R6",
+    "Rule": "Guarantors must confirm in writing that they have fully read, understood their commitments, and are aware of the potential implications and maximum amount guaranteed, with the option to seek independent professional advice.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 17,
+      "quote": "Ensure that guarantors confirm in writing that they have read and understood their commitments, potential implications and the maximum amount they are guaranteeing, and have either: sought and obtained independent professional advice before executing the guarantee; or declared that they do not need independent advice."
+    },
+    "Category": "Guarantor Requirement",
+    "Risk Type": "Credit Risk, Compliance Risk",
+    "Fairness Note": "Ensures guarantors are fully informed and protected, preventing exploitation due to lack of understanding."
+  },
+  {
+    "Rule ID": "R7",
+    "Rule": "All contracts for credit facilities must clearly disclose details of any collateral pledged, its estimated value, and specify that foreclosures will only proceed if other recovery steps have been unsuccessful.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 13,
+      "quote": "collateral pledged and its estimated value;"
+    },
+    "Category": "Collateral",
+    "Risk Type": "Credit Risk, Compliance Risk",
+    "Fairness Note": "Promotes transparency in collateral arrangements and ensures due process in debt recovery, offering an option of private sale before foreclosure."
+  },
+  {
+    "Rule ID": "R8",
+    "Rule": "Credit contracts must clearly state the nature, amount, and calculation method of all interest, fees, and charges, including the Annual Percentage Rate (APR), and notify consumers of any possible variations.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 12,
+      "quote": "The nature, amount and method of calculation of any interest, fee or charge and when it is payable; The applicable Annual Percentage Rate (APR) to be calculated using the formula stated in Annexure B1 and B2; Notice of possible variations in interest rates, and how the consumer will be informed of changes;"
+    },
+    "Category": "Interest Rate Disclosure",
+    "Risk Type": "Compliance Risk, Market Risk",
+    "Fairness Note": "Empowers consumers with full cost transparency, allowing for informed decision-making and comparison."
+  },
+  {
+    "Rule ID": "R9",
+    "Rule": "Before contract execution, institutions must disclose all product terms, features, risks, benefits, and associated fees, providing a Key Facts Statement (KFS) and allowing a minimum two-day review period for draft contracts.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 11,
+      "quote": "Disclose all terms and conditions of a product or service on offer, as well as the features, risks, benefits, fees and other associated charges. Provide the consumer, a Key Facts Statement (KFS) in the format attached as Annexure A stating a summary of key information on consumer loans. Allow consumers a minimum of two (2) days from date of receipt, to review draft contract before execution except where the customer waives this in writing."
+    },
+    "Category": "Pre-Contract Disclosure",
+    "Risk Type": "Compliance Risk, Operational Risk",
+    "Fairness Note": "Ensures consumers have adequate time and information to understand commitments before signing."
+  },
+  {
+    "Rule ID": "R10",
+    "Rule": "Consumers are entitled to a three-working-day cooling-off period after signing a credit contract, during which they can cancel without penalty or charges, unless this right is explicitly waived in writing.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 11,
+      "quote": "Give a consumer a cooling-off period of three (3) working days after the signing of a credit contract within which the consumer may cancel the contract without having to pay any penalty or charges. However, the consumer may choose to waive the option by notifying the bank in writing."
+    },
+    "Category": "Cooling-Off Period",
+    "Risk Type": "Compliance Risk",
+    "Fairness Note": "Protects consumers from undue pressure and allows reconsideration of financial commitments."
+  },
+  {
+    "Rule ID": "R11",
+    "Rule": "Contract terms must be fair, clearly written in simple, legible English, and not create an imbalance detrimental to the consumer. Any ambiguity will be interpreted in favor of the consumer.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 6,
+      "quote": "Contracts between Institutions and consumers shall not contain unfair terms. Contract terms shall be considered unfair where there is an imbalance in rights and obligations which are detrimental to the consumer. Where there is any doubt or ambiguity about the meaning of a term used in a contract or other document provided to a consumer, the interpretation most favorable to the consumer shall prevail."
+    },
+    "Category": "Contract Terms",
+    "Risk Type": "Compliance Risk, Legal Risk",
+    "Fairness Note": "Safeguards consumers from oppressive or unclear contractual obligations."
+  },
+  {
+    "Rule ID": "R12",
+    "Rule": "Consumer personal data must be protected, kept confidential, and not transferred to a third party without express written consent, except to fulfill a legal obligation. Data must be accurate and updated regularly.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 18,
+      "quote": "Protect the privacy and confidentiality of consumer information and assets against unauthorized access... Obtain the written consent of consumers to collect and process their personal data for specific purpose and provide them with the option to withdraw the consent at any time. Not transfer personal data of consumers to a third party without their express consent, except in compliance with a legal obligation."
+    },
+    "Category": "Data Protection & Privacy",
+    "Risk Type": "Privacy Risk, Compliance Risk",
+    "Fairness Note": "Ensures respect for individual privacy and control over personal data, crucial for maintaining trust."
+  },
+  {
+    "Rule ID": "R13",
+    "Rule": "Debt collection practices must be transparent, courteous, and fair, initiated only after proper notice of outstanding obligations. Contact for debt recovery is prohibited between 9:00 PM and 8:00 AM without prior consent.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 18,
+      "quote": "To ensure that debt recovery processes are transparent, courteous and fair, devoid of undue pressure, intimidation, harassment, humiliation or threat, Institutions shall. Engage and give customers notice(s) of outstanding obligations prior to the commencement of a debt collection. Make telephone or personal contact with customers between the hours of 9.00pm and 8.00am for the purpose of debt recovery, except with the prior consent of the customer."
+    },
+    "Category": "Debt Collection",
+    "Risk Type": "Reputational Risk, Compliance Risk, Fairness Risk",
+    "Fairness Note": "Protects consumers from harassment and ensures dignified treatment during debt recovery."
+  },
+  {
+    "Rule ID": "R14",
+    "Rule": "Applicants, including low-income women, must have their repayment capability assessed based on their sustainable financial circumstances, ensuring equal access to credit if they meet these objective criteria.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 5,
+      "quote": "Consider the needs of the financially excluded, including the vulnerable groups such as low-income consumers, women, seniors, physically challenged and the non-literate in the development and implementation of their business models, strategies and processes. Before granting credit to consumers, assess their capability to repay in a sustainable manner taking into consideration their financial circumstances."
+    },
+    "Category": "Fairness: Income/Gender",
+    "Risk Type": "Fairness Risk, Credit Risk",
+    "Fairness Note": "Specifically protects low-income women by emphasizing repayment capacity over demographic biases, aligning with the mandate to consider vulnerable groups."
+  },
+  {
+    "Rule ID": "R15",
+    "Rule": "Credit eligibility for rural youth with irregular income should consider alternative forms of security, such as strong collateral or guarantor support, alongside their assessed repayment capability.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 5,
+      "quote": "Consider the needs of the financially excluded, including the vulnerable groups such as low-income consumers, women, seniors, physically challenged and the non-literate in the development and implementation of their business models, strategies and processes."
+    },
+    "Category": "Fairness: Income/Location",
+    "Risk Type": "Fairness Risk, Credit Risk",
+    "Fairness Note": "Addresses potential bias against non-traditional income streams or locations by allowing collateral/guarantor strength to compensate, promoting financial inclusion for rural youth."
+  },
+  {
+    "Rule ID": "R16",
+    "Rule": "Elderly borrowers with pensions must be assessed for credit based on the stability of their pension income as proof of sustainable repayment capacity, in line with responsible lending practices.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 5,
+      "quote": "Consider the needs of the financially excluded, including the vulnerable groups such as low-income consumers, women, seniors, physically challenged and the non-literate in the development and implementation of their business models, strategies and processes."
+    },
+    "Category": "Fairness: Age/Income Source",
+    "Risk Type": "Fairness Risk, Credit Risk",
+    "Fairness Note": "Protects elderly individuals by ensuring their steady pension income is recognized as valid proof of repayment ability, combating age-related biases."
+  },
+  {
+    "Rule ID": "R17",
+    "Rule": "The data subject has the right to withdraw their consent for personal data processing at any time, and this withdrawal must not affect the lawfulness of processing that occurred prior to the withdrawal.",
+    "source": {
+      "filename": "NigeriaDataProtectionRegulation.pdf",
+      "page": 9,
+      "quote": "prior to giving consent, the Data Subject shall be informed of his right and method to withdraw his consent at any given time. However, the withdrawal of consent shall not affect the lawfulness of processing based on consent before its withdrawal;"
+    },
+    "Category": "Data Subject Right",
+    "Risk Type": "Privacy Risk, Compliance Risk",
+    "Fairness Note": "Empowers data subjects with ongoing control over their personal information after initial consent."
+  },
+  {
+    "Rule ID": "R18",
+    "Rule": "Consumers must be notified if their loan request is declined, and the reason(s) for the decline must be provided upon their request.",
+    "source": {
+      "filename": "cbn consumer protection regulations.pdf",
+      "page": 16,
+      "quote": "Notify customers where their loan requests are declined. The reason(s) for decline shall be provided upon request."
+    },
+    "Category": "Loan Decision Notification",
+    "Risk Type": "Compliance Risk, Transparency Risk",
+    "Fairness Note": "Ensures transparency in credit decisions, allowing consumers to understand and address any issues leading to denial."
+  },
+  {
+    "Rule ID": "R19",
+    "Rule": "Credit Bureaux must collect relevant identity and credit history information to determine a data subject's banking relationships, overall debt exposure, repayment behavior, and other contractual obligations for permissible purposes only.",
+    "source": {
+      "filename": "CBN approved credit bureau guidelines.pdf",
+      "page": 12,
+      "quote": "A licensed Credit Bureau shall collect relevant information for Permissible Purposes only on the background and Credit History relating to the commitment of persons, enterprises and other organizations, in order to determine their identity, banking relationships, overall debt exposure, repayment behaviour and other contractual obligations."
+    },
+    "Category": "Data Collection Scope",
+    "Risk Type": "Privacy Risk, Compliance Risk",
+    "Fairness Note": "Limits data collection to relevant information for credit assessment, preventing arbitrary or excessive data gathering."
+  }
+]
