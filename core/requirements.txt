@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+chromadb
+sentence_transformers
+faiss-cpu
+transformers
+torch
+openai
+python-dotenv
+pydantic
+requests
