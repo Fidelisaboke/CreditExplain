@@ -1,78 +1,49 @@
-/**
- * ChatInput component provides a text input and send button for user queries.
- * Accessibility: Focus ring, ARIA label, keyboard submit.
- */
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-import React, { useRef, useEffect } from "react";
-import { Send, Loader } from "lucide-react";
-import { Button } from "@/components/ui/button";
-// Remove Input import, use native textarea for auto-resize
-
-interface ChatInputProps {
-  value: string;
-  onChange: (val: string) => void;
-  onSend: () => void;
-  loading: boolean;
+interface CitationPreviewProps {
+  docName: string;
+  clause: string;
+  snippet: string;
+  className?: string;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ value, onChange, onSend, loading }) => {
-  // Ref for textarea to control auto-resize
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  // Handle Enter key for submission and Shift+Enter for new line
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey && !loading) {
-      e.preventDefault();
-      onSend();
-    }
-    // Shift+Enter inserts newline by default
-  };
-
-  // Auto-resize textarea vertically as user types
-  useEffect(() => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + "px";
-    }
-  }, [value]);
+const CitationPreview: React.FC<CitationPreviewProps> = ({ docName, clause, snippet, className }) => {
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="relative flex items-center">
-      {/*
-        Use a native textarea for chat input:
-        - Auto-resizes vertically as user types (see useEffect above)
-        - No horizontal scrolling; long lines wrap
-        - Shift+Enter inserts newline, Enter submits
-        - Accessibility: focus ring, ARIA label
-      */}
-      <textarea
-        ref={textareaRef}
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        rows={1}
-        className="pr-12 flex-1 px-4 py-3 border rounded-lg bg-white text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition resize-none overflow-hidden whitespace-pre-wrap break-words min-h-[3rem] max-h-[12rem]"
-        placeholder="Type your credit inquiry..."
-        aria-label="Chat input"
-        disabled={loading}
-        spellCheck={true}
-      />
-      <Button
+    <div className={cn(
+      "border border-slate-200/60 rounded-xl bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md focus-within:ring-2 focus-within:ring-blue-500",
+      className
+    )}>
+      <button
         type="button"
-        onClick={onSend}
-        disabled={loading || !value.trim()}
-        className="absolute right-2 rounded-lg bg-primary text-primary-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary transition"
-        aria-label="Send message"
+        className="flex items-center w-full text-left gap-3 rounded-lg"
+        onClick={() => setExpanded(e => !e)}
+        aria-expanded={expanded}
+        aria-label={`Expand citation for ${docName}`}
       >
-        {loading ? (
-          <Loader className="w-4 h-4 animate-spin" />
-        ) : (
-          <Send size={24} className="text-white hover:text-primary" aria-label="Send icon" />
-        )}
-      </Button>
+        <FileText className="w-5 h-5 text-blue-600" aria-label="Document icon" />
+        <span className="font-semibold text-blue-700 text-sm">{docName}</span>
+        <span className="ml-2 bg-blue-100 text-blue-700 px-2.5 py-0.5 rounded-full text-xs font-medium">
+          Clause {clause}
+        </span>
+        <span className="ml-auto">
+          {expanded ? (
+            <ChevronUp className="w-4 h-4 text-slate-500" aria-label="Collapse" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-slate-500" aria-label="Expand" />
+          )}
+        </span>
+      </button>
+      {expanded && (
+        <div className="mt-3 text-slate-700 text-sm animate-in fade-in duration-300 border-t border-slate-100 pt-3">
+          <p className="italic leading-relaxed">"{snippet}"</p>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ChatInput;
+export default CitationPreview;

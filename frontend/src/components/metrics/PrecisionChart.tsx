@@ -1,6 +1,6 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, type ChartOptions } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -13,10 +13,6 @@ interface PrecisionChartProps {
   data: PrecisionData;
 }
 
-/**
- * PrecisionChart visualizes citation precision at 5 and 10 as a bar chart.
- * Uses theme colors via Tailwind classes.
- */
 const PrecisionChart: React.FC<PrecisionChartProps> = ({ data }) => {
   const chartData = {
     labels: ["P@5", "P@10"],
@@ -24,51 +20,62 @@ const PrecisionChart: React.FC<PrecisionChartProps> = ({ data }) => {
       {
         label: "Precision",
         data: [data.p_at_5, data.p_at_10],
-        backgroundColor: ["#f59e42", "#2563eb"], // Tailwind accent & primary
-        borderColor: ["#f59e42", "#2563eb"],
-        borderWidth: 2,
+        backgroundColor: [
+          "rgba(34, 197, 94, 0.8)",   // Green for P@5
+          "rgba(101, 163, 13, 0.8)",  // Darker green for P@10
+        ],
+        borderColor: [
+          "rgb(34, 197, 94)",
+          "rgb(101, 163, 13)",
+        ],
+        borderWidth: 1,
         borderRadius: 6,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: false as const },
-      title: { display: false as const },
-      tooltip: { enabled: true as const },
+      legend: { display: false },
+      title: { display: false },
+      tooltip: {
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        titleColor: "#1f2937",
+        bodyColor: "#374151",
+        borderColor: "#e5e7eb",
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        callbacks: {
+          label: function (context) {
+            return `${context.label}: ${(context.parsed.y * 100).toFixed(1)}%`;
+          }
+        }
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
         max: 1,
+        grid: { color: "rgba(229, 231, 235, 0.5)" },
         ticks: {
-          color: "#1e293b",
-          // Chart.js expects: (tickValue: number | string, index: number, ticks: Tick[]) => string | number | ...
-          callback: function(tickValue: number | string) {
-            if (typeof tickValue === "number") {
-              return `${Math.round(tickValue * 100)}%`;
-            }
-            return tickValue;
+          color: "#6b7280",
+          callback: function (value) {
+            return `${(Number(value) * 100)}%`;
           }
         },
-        grid: { color: "#e0e7ef" },
       },
       x: {
-        ticks: { color: "#1e293b" },
-        grid: { color: "#e0e7ef" },
+        grid: { display: false },
+        ticks: { color: "#6b7280" },
       },
     },
   };
 
   return (
-  <div className="bg-card rounded-xl p-4 shadow h-64 min-h-[16rem] flex items-center justify-center w-full overflow-hidden">
-      {/*
-        Chart container uses fixed height (h-64, min-h-[16rem]) to prevent Chart.js flickering/shrinking.
-        Flex centering ensures chart is always visible and stable.
-      */}
+    <div className="h-80">
       <Bar data={chartData} options={options} />
     </div>
   );

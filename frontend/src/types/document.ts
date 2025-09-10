@@ -5,4 +5,7 @@ export interface DocumentMetadata {
     pageCount: number;
     uploadDate: string;
     status?: "uploaded" | "processing" | "processed" | "error";
+    type: string;
+    reflectionScore: number;
+    piiStatus?: string;
 }

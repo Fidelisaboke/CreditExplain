@@ -1,8 +1,8 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, type ChartOptions } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export interface LatencyData {
   min_ms: number;
@@ -20,10 +20,6 @@ interface LatencyChartProps {
   data: LatencyData;
 }
 
-/**
- * LatencyChart visualizes latency metrics (min, avg, max, percentiles) as a bar chart.
- * Uses theme colors via Tailwind classes.
- */
 const LatencyChart: React.FC<LatencyChartProps> = ({ data }) => {
   const chartData = {
     labels: ["Min", "P50", "P75", "P90", "P99", "Avg", "Max"],
@@ -39,42 +35,67 @@ const LatencyChart: React.FC<LatencyChartProps> = ({ data }) => {
           data.avg_ms,
           data.max_ms,
         ],
-        backgroundColor: "#2563eb", // Tailwind bg-primary
-        borderColor: "#2563eb",
-        borderWidth: 2,
+        backgroundColor: [
+          "rgba(101, 163, 255, 0.8)",   // Min - lighter blue
+          "rgba(66, 138, 245, 0.8)",    // P50
+          "rgba(37, 99, 235, 0.8)",     // P75 - primary blue
+          "rgba(29, 78, 216, 0.8)",     // P90
+          "rgba(30, 64, 175, 0.8)",     // P99
+          "rgba(37, 99, 235, 0.8)",     // Avg - primary blue
+          "rgba(30, 58, 138, 0.8)",     // Max - darker blue
+        ],
+        borderColor: [
+          "rgb(101, 163, 255)",
+          "rgb(66, 138, 245)",
+          "rgb(37, 99, 235)",
+          "rgb(29, 78, 216)",
+          "rgb(30, 64, 175)",
+          "rgb(37, 99, 235)",
+          "rgb(30, 58, 138)",
+        ],
+        borderWidth: 1,
         borderRadius: 6,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       title: { display: false },
-      tooltip: { enabled: true },
+      tooltip: {
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        titleColor: "#1f2937",
+        bodyColor: "#374151",
+        borderColor: "#e5e7eb",
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${context.parsed.y} ms`;
+          }
+        }
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
-        ticks: { color: "#1e293b" }, // Tailwind text-foreground
-        grid: { color: "#e0e7ef" }, // Tailwind border
+        grid: { color: "rgba(229, 231, 235, 0.5)" },
+        ticks: { color: "#6b7280" },
       },
       x: {
-        ticks: { color: "#1e293b" },
-        grid: { color: "#e0e7ef" },
+        grid: { display: false },
+        ticks: { color: "#6b7280" },
       },
     },
   };
 
   return (
-  <div className="bg-card rounded-xl p-4 shadow h-64 min-h-[16rem] flex items-center justify-center w-full overflow-hidden">
-      {/*
-        Chart container uses fixed height (h-64, min-h-[16rem]) to prevent Chart.js flickering/shrinking.
-        Flex centering ensures chart is always visible and stable.
-      */}
-      <Line data={chartData} options={options} />
+    <div className="h-80">
+      <Bar data={chartData} options={options} />
     </div>
   );
 };

@@ -1,6 +1,13 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title, Tooltip, Legend, type ChartOptions
+} from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -14,78 +21,101 @@ interface ReflectionChartProps {
   data: ReflectionScores;
 }
 
-/**
- * ReflectionChart visualizes ISREL, ISSUP, ISUSE scores over time as line charts.
- * Uses theme colors via Tailwind classes.
- */
 const ReflectionChart: React.FC<ReflectionChartProps> = ({ data }) => {
   const chartData = {
-    labels: data.ISREL.map((_, i) => `T${i + 1}`),
+    labels: data.ISREL.map((_, i) => `Query ${i + 1}`),
     datasets: [
       {
-        label: "ISREL",
+        label: "ISREL (Relevance)",
         data: data.ISREL,
-        borderColor: "#2563eb", // primary
-        backgroundColor: "#2563eb22",
-        tension: 0.4,
+        borderColor: "rgb(37, 99, 235)", // blue-600
+        backgroundColor: "rgba(37, 99, 235, 0.1)",
+        tension: 0.3,
+        pointBackgroundColor: "rgb(37, 99, 235)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(37, 99, 235)",
         pointRadius: 4,
+        pointHoverRadius: 6,
       },
       {
-        label: "ISSUP",
+        label: "ISSUP (Support)",
         data: data.ISSUP,
-        borderColor: "#f59e42", // accent
-        backgroundColor: "#f59e4222",
-        tension: 0.4,
+        borderColor: "rgb(234, 88, 12)", // orange-600
+        backgroundColor: "rgba(234, 88, 12, 0.1)",
+        tension: 0.3,
+        pointBackgroundColor: "rgb(234, 88, 12)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(234, 88, 12)",
         pointRadius: 4,
+        pointHoverRadius: 6,
       },
       {
-        label: "ISUSE",
+        label: "ISUSE (Usefulness)",
         data: data.ISUSE,
-        borderColor: "#64748b", // muted
-        backgroundColor: "#64748b22",
-        tension: 0.4,
+        borderColor: "rgb(139, 92, 246)", // purple-500
+        backgroundColor: "rgba(139, 92, 246, 0.1)",
+        tension: 0.3,
+        pointBackgroundColor: "rgb(139, 92, 246)",
+        pointBorderColor: "#fff",
+        pointHoverBackgroundColor: "#fff",
+        pointHoverBorderColor: "rgb(139, 92, 246)",
         pointRadius: 4,
+        pointHoverRadius: 6,
       },
     ],
   };
 
-  const options = {
+  const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { display: true as const, position: "top" as const },
-      title: { display: false as const },
-      tooltip: { enabled: true as const },
+      legend: {
+        position: "top",
+        labels: {
+          color: "#374151",
+          usePointStyle: true,
+          padding: 20,
+        }
+      },
+      title: { display: false },
+      tooltip: {
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        titleColor: "#1f2937",
+        bodyColor: "#374151",
+        borderColor: "#e5e7eb",
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${(context.parsed.y * 100).toFixed(1)}%`;
+          }
+        }
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
         max: 1,
+        grid: { color: "rgba(229, 231, 235, 0.5)" },
         ticks: {
-          color: "#1e293b",
-          // Chart.js expects: (tickValue: number | string, index: number, ticks: Tick[]) => string | number | ...
-          callback: function(tickValue: number | string) {
-            if (typeof tickValue === "number") {
-              return `${Math.round(tickValue * 100)}%`;
-            }
-            return tickValue;
+          color: "#6b7280",
+          callback: function (value) {
+            return `${(Number(value) * 100)}%`;
           }
         },
-        grid: { color: "#e0e7ef" },
       },
       x: {
-        ticks: { color: "#1e293b" },
-        grid: { color: "#e0e7ef" },
+        grid: { color: "rgba(229, 231, 235, 0.5)" },
+        ticks: { color: "#6b7280" },
       },
     },
   };
 
   return (
-  <div className="bg-card rounded-xl p-4 shadow h-64 md:h-128 min-h-[16em] flex items-center justify-center w-full overflow-hidden">
-      {/*
-        Chart container uses fixed height (h-64, min-h-[16rem]) to prevent Chart.js flickering/shrinking.
-        Flex centering ensures chart is always visible and stable.
-      */}
+    <div className="h-96">
       <Line data={chartData} options={options} />
     </div>
   );
