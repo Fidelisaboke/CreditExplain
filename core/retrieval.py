@@ -1,24 +1,30 @@
-import os
+"""
+Retrieval component for the self-RAG system.
+"""
+
 import numpy as np
 from typing import List, Dict, Any, Optional
 import logging
 
 # LangChain integration
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
-from langchain_core.embeddings import Embeddings
 from langchain_chroma import Chroma
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+VECTORSTORE_DIR = "vectorstore/chroma"
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+
+
 class LangChainEmbeddingModel:
     """Wrapper for LangChain's HuggingFaceEmbeddings with additional functionality."""
-    
-    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2", **kwargs):
+
+    def __init__(self, model_name: str = EMBEDDING_MODEL, **kwargs):
         """
         Initialize the LangChain embedding model.
-        
+
         Args:
             model_name: Name of the HuggingFace model to use
             **kwargs: Additional arguments for HuggingFaceEmbeddings
@@ -28,10 +34,12 @@ class LangChainEmbeddingModel:
             # Initialize LangChain's HuggingFaceEmbeddings
             self.embeddings = HuggingFaceEmbeddings(
                 model_name=model_name,
-                model_kwargs=kwargs.get('model_kwargs', {'device': 'cpu'}),
-                encode_kwargs=kwargs.get('encode_kwargs', {'normalize_embeddings': False}),
-                multi_process=kwargs.get('multi_process', False),
-                show_progress=kwargs.get('show_progress', False)
+                model_kwargs=kwargs.get("model_kwargs", {"device": "cpu"}),
+                encode_kwargs=kwargs.get(
+                    "encode_kwargs", {"normalize_embeddings": False}
+                ),
+                multi_process=kwargs.get("multi_process", False),
+                show_progress=kwargs.get("show_progress", False),
             )
             logger.info(f"Loaded LangChain embedding model: {model_name}")
         except Exception as e:
@@ -41,16 +49,16 @@ class LangChainEmbeddingModel:
     def embed(self, texts: List[str]) -> np.ndarray:
         """
         Embed a list of texts using LangChain's HuggingFaceEmbeddings.
-        
+
         Args:
             texts: List of texts to embed
-            
+
         Returns:
             Numpy array of embeddings
         """
         if not texts:
             return np.array([])
-        
+
         try:
             # Use LangChain's embed_documents method
             embeddings_list = self.embeddings.embed_documents(texts)
@@ -62,16 +70,16 @@ class LangChainEmbeddingModel:
     def embed_query(self, text: str) -> np.ndarray:
         """
         Embed a single query text.
-        
+
         Args:
             text: Query text to embed
-            
+
         Returns:
             Numpy array of the embedding
         """
         if not text.strip():
             return np.array([])
-        
+
         try:
             # Use LangChain's embed_query method
             embedding = self.embeddings.embed_query(text)
@@ -80,18 +88,23 @@ class LangChainEmbeddingModel:
             logger.error(f"Query embedding failed: {e}")
             return np.array([])
 
+
 # Maintain backward compatibility
 EmbeddingModel = LangChainEmbeddingModel
 
+
 class VectorRetriever:
     """LangChain-based retriever using Chroma vector store."""
-    
-    def __init__(self, persist_directory: str = "../vectorstore/chroma", 
-                 collection_name: str = "creditexplain",
-                 embedding_model: Optional[HuggingFaceEmbeddings] = None):
+
+    def __init__(
+        self,
+        persist_directory: str = VECTORSTORE_DIR,
+        collection_name: str = "creditexplain",
+        embedding_model: Optional[HuggingFaceEmbeddings] = None,
+    ):
         """
         Initialize the Chroma retriever using LangChain.
-        
+
         Args:
             persist_directory: Directory for Chroma persistence
             collection_name: Name of the collection to use
@@ -99,36 +112,42 @@ class VectorRetriever:
         """
         self.persist_directory = persist_directory
         self.collection_name = collection_name
-        
+
         # Initialize embedding model if not provided
         if embedding_model is None:
             self.embedding_model = HuggingFaceEmbeddings(
                 model_name="sentence-transformers/all-MiniLM-L6-v2",
-                model_kwargs={'device': 'cpu'},
-                encode_kwargs={'normalize_embeddings': True}
+                model_kwargs={"device": "cpu"},
+                encode_kwargs={"normalize_embeddings": True},
             )
         else:
             self.embedding_model = embedding_model
-        
+
         # Initialize Chroma vector store
         self.vector_store = Chroma(
             persist_directory=persist_directory,
             collection_name=collection_name,
-            embedding_function=self.embedding_model
+            embedding_function=self.embedding_model,
         )
-        
-        logger.info(f"Initialized LangChain Chroma retriever for collection: {collection_name}")
 
-    def retrieve(self, query_embedding: List[float], k: int = 50, 
-                filter_dict: Optional[Dict] = None) -> List[Dict[str, Any]]:
+        logger.info(
+            f"Initialized LangChain Chroma retriever for collection: {collection_name}"
+        )
+
+    def retrieve(
+        self,
+        query_embedding: List[float],
+        k: int = 50,
+        filter_dict: Optional[Dict] = None,
+    ) -> List[Dict[str, Any]]:
         """
         Retrieve documents using LangChain's similarity_search_by_vector.
-        
+
         Args:
             query_embedding: Embedding vector of the query
             k: Number of results to return
             filter_dict: Metadata filters to apply
-            
+
         Returns:
             List of retrieved documents with metadata
         """
@@ -137,77 +156,82 @@ class VectorRetriever:
             langchain_filter = None
             if filter_dict:
                 # LangChain expects a different filter format
-                langchain_filter = {"$and": [{k: {"$eq": v}} for k, v in filter_dict.items()]}
-            
+                langchain_filter = {
+                    "$and": [{k: {"$eq": v}} for k, v in filter_dict.items()]
+                }
+
             # Use LangChain's built-in similarity search
             results = self.vector_store.similarity_search_by_vector(
                 embedding=query_embedding,
                 k=min(k, 100),
-                filter=langchain_filter  # Use the converted filter
+                filter=langchain_filter,  # Use the converted filter
             )
-            
+
             # Convert to your expected format
             items = []
             for doc in results:
-                items.append({
-                    "id": doc.metadata.get("id", ""),
-                    "doc_text": doc.page_content,
-                    "metadata": doc.metadata,
-                    "distance": 0.0
-                })
-            
+                items.append(
+                    {
+                        "id": doc.metadata.get("id", ""),
+                        "doc_text": doc.page_content,
+                        "metadata": doc.metadata,
+                        "distance": 0.0,
+                    }
+                )
+
             logger.info(f"Retrieved {len(items)} documents using LangChain")
             return items
-            
+
         except Exception as e:
             logger.error(f"Retrieval failed: {e}")
             return []  # Ensure this returns empty list on error
 
     # Add method for text-based retrieval (optional)
-    def retrieve_by_text(self, query: str, k: int = 50, 
-                        filter_dict: Optional[Dict] = None) -> List[Dict[str, Any]]:
+    def retrieve_by_text(
+        self, query: str, k: int = 50, filter_dict: Optional[Dict] = None
+    ) -> List[Dict[str, Any]]:
         """
         Retrieve documents using query text (convenience method).
         """
         try:
             results = self.vector_store.similarity_search(
-                query=query,
-                k=min(k, 100),
-                filter=filter_dict
+                query=query, k=min(k, 100), filter=filter_dict
             )
-            
+
             items = []
             for doc in results:
-                items.append({
-                    "id": doc.metadata.get("id", ""),
-                    "doc_text": doc.page_content,
-                    "metadata": doc.metadata,
-                    "distance": 0.0
-                })
-            
+                items.append(
+                    {
+                        "id": doc.metadata.get("id", ""),
+                        "doc_text": doc.page_content,
+                        "metadata": doc.metadata,
+                        "distance": 0.0,
+                    }
+                )
+
             return items
-            
+
         except Exception as e:
             logger.error(f"Text retrieval failed: {e}")
             return []
+
 
 # Example usage
 if __name__ == "__main__":
     # Initialize the embedding model
     embed_model = LangChainEmbeddingModel(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
-        model_kwargs={'device': 'cpu'},
-        encode_kwargs={'normalize_embeddings': True}
+        model_kwargs={"device": "cpu"},
+        encode_kwargs={"normalize_embeddings": True},
     )
-    
+
     # Initialize the retriever
     retriever = VectorRetriever()
-    
+
     # Example query
     query = "What are the capital requirements for banks?"
     results = get_topk_for_query(query, embed_model, retriever, k=10)
-    
+
     print(f"Found {len(results)} results for query: {query}")
     for i, result in enumerate(results[:3]):  # Show first 3 results
         print(f"Result {i+1}: {result['doc_text'][:100]}...")
-        

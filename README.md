@@ -134,6 +134,12 @@ npm run dev
 # Frontend starts at http://localhost:5173
 ```
 
+**CLI Application**
+- You can also choose to interact with the terminal app:
+```bash
+python -m core.self_rag
+```
+
 ## 💡 Basic Usage
 
 1. **Access the Web Interface**: Open http://localhost:5173 in your browser
@@ -192,10 +198,6 @@ npm run dev
 │   ├── chunker.py           # Text chunking strategies
 │   ├── index.py             # Vector indexing process
 │   ├── normalize.py         # Text normalization
-│   └── __init__.py
-├── models/                  # Model configurations
-│   ├── critic.py            # Critic model setup
-│   ├── reranker.py          # Reranker model setup
 │   └── __init__.py
 ├── eval/                    # Evaluation and metrics
 │   ├── metrics.py           # Performance metrics calculation
