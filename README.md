@@ -4,182 +4,278 @@
 
 Built for the **NSK.AI RAG Hackathon 2025**, CreditExplain RAG helps **compliance officers and analysts** quickly answer:
 
-* *“Why was this loan declined?”*
-* *“Which clause justifies KYC step X?”*
+* *"Why was this loan declined?"*
+* *"Which clause justifies KYC step X?"*
 
 The system integrates advanced **RAG techniques** (SELF-RAG critic loop, reranking, provenance logging, PII redaction) to provide trustworthy, auditable explanations.
 
----
+## 📋 Table of Contents
 
-## ✨ Features
+- [Project Overview](#-project-overview)
+- [Tech Stack](#-tech-stack)
+- [Installation & Setup](#-installation--setup)
+  - [Pre-requisites](#pre-requisites)
+  - [Setup Instructions](#setup-instructions)
+- [Basic Usage](#-basic-usage)
+- [Repository Structure](#-repository-structure)
+- [Known Issues](#-known-issues)
+- [Future Development](#-future-development)
+- [Acknowledgement](#-acknowledgement)
+- [Contact Information](#-contact-information)
+- [License](#-license)
 
-* 🔍 **Adaptive Retrieval (SELF-RAG):** Critic decides if/when to retrieve; reflection tokens (`ISREL`, `ISSUP`, `ISUSE`) score evidence.
-* 📑 **Evidence-backed Explanations:** Every answer cites chunks from regulatory docs, T\&Cs, or policies.
-* 🛡️ **PII Redaction:** Personal data filtered out before display.
-* 📊 **Audit & Metrics:** Downloadable audit JSON/PDF with provenance; dashboards for retrieval precision and ISSUP distribution.
-* 💡 **Follow-up Suggestions:** Sidebar with prioritized next questions.
-* 🖥️ **Simple UI:** Sleek React web app — *Ingest Documents* and *Query Agent*.
+## ✨ Project Overview
 
----
+CreditExplain RAG addresses the critical need for **transparent, evidence-based explanations** in financial compliance and credit decisioning. Traditional AI systems often provide "black box" responses without verifiable sources, making them unsuitable for regulated environments.
 
-## 📂 Repository Layout
+Our solution provides:
+- **Regulatory Compliance**: Every explanation cites specific clauses from authoritative documents
+- **Audit Trail**: Complete provenance tracking with reflection token scoring
+- **PII Protection**: Automatic redaction of sensitive personal information
+- **Multi-jurisdictional Support**: Handling of Nigerian, Kenyan, and global financial regulations
 
-```bash
-creditexplain/
-├── api/                   # FastAPI backend
-│   ├── main.py            # Entrypoint: defines app, mounts routers
-│   ├── safety.py          # PII redaction middleware
-│   ├── dependencies.py    # Common dependencies (e.g., DB, settings)
-│
-├── core/                  # Orchestrator, RAG loop, prompts
-│   ├── self_rag.py
-│   ├── retrieval.py
-│   ├── prompts.py
-│   └── provenance.py
-│
-├── ingest/                # Loaders, chunking, embedding pipeline
-│   ├── loader.py
-│   ├── chunker.py
-│   ├── index.py
-│   └── normalize.py
-│
-├── models/                # Critic & reranker configurations
-│   ├── critic.py
-│   └── reranker.py
-│
-├── vectorstore/           # Persisted vector DB (Chroma or FAISS)
-│
-├── eval/                  # Metrics & audit evaluations
-│   ├── metrics.py
-│   └── runs/
-│
-├── data/                  # Sample input documents (not versioned)
-│
-├── diagrams/              # Architecture diagrams
-│
-├── frontend/              # React + Vite UI
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── Upload.tsx
-│   │   │   ├── Query.tsx
-│   │   │   └── Metrics.tsx
-│   │   ├── components/
-│   │   │   ├── ExplanationCard.tsx
-│   │   │   ├── CitationPreview.tsx
-│   │   │   └── SidebarQuestions.tsx
-│   │   └── api/axios.ts
-│   ├── vite.config.ts
-│   ├── package.json
-│   └── tailwind.config.js
-│
-├── requirements.txt
-├── Dockerfile
-├── Makefile
-├── README.md
-└── .env.example
-```
+## 🛠️ Tech Stack
 
----
+### Backend
+- **FastAPI** - Modern Python web framework
+- **LangChain** - RAG orchestration and tooling
+- **ChromaDB** - Vector database for document storage
+- **HuggingFace Transformers** - Embeddings and reranking models
+- **Groq API** - LLM inference for critic and generator components
+- **Pydantic** - Data validation and serialization
 
-## 🛠️ Setup
+### Frontend
+- **React 18** - User interface library
+- **TypeScript** - Type-safe development
+- **Vite** - Build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **TanStack Query** - Server state management
+- **Axios** - HTTP client for API communication
 
-### 1. Clone & install
+### Machine Learning
+- **SELF-RAG Architecture** - Adaptive retrieval with reflection tokens
+- **sentence-transformers/all-MiniLM-L6-v2** - Embedding model
+- **cross-encoder/ms-marco-MiniLM-L-6-v2** - Reranker model
+- **Llama 3** - LLMs for generation and critique
+
+## 🚀 Installation & Setup
+
+### Pre-requisites
+
+- **Python 3.9+** installed on your system
+- **Node.js 18+** and npm for frontend development
+- **Groq API account** and API key for LLM access
+- **Git** for version control
+
+### Setup Instructions
+
+#### 1. Clone & Install Backend Dependencies
 
 ```bash
-git clone https://github.com/<your-org>/creditexplain.git
-cd creditexplain
-python -m venv venv
-source venv/bin/activate
+git clone https://github.com/Maina314159/CreditExplain
+cd CreditExplain
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Configure environment
-
-Copy `.env.example` → `.env` and fill in your keys:
+#### 2. Configure Environment Variables
 
 ```bash
-OPENAI_API_KEY=sk-xxxx
-CHROMA_PERSIST_DIR=./vectorstore/chroma
-EMBEDDINGS_FALLBACK=all-mpnet-base-v2
-RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+# Copy and update the environment template
+cp .env.example .env
 ```
 
-### 3. Ingest documents
+Edit `.env` with your configuration:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+- For frontend, also create an `.env` with the backend server added to it
+```bash
+# Go to frontend and create .env file
+cd frontend
+cp .env.example .env
+
+# Then add backend server
+VITE_BACKEND_URL=http://localhost:8000
+```
+
+#### 3. Setup Frontend
 
 ```bash
-# Place PDFs in data/raw/
-make ingest
+cd frontend
+npm install
 ```
 
-### 4. Run the app
+#### 4. Ingest Sample Documents
 
 ```bash
-make run
-# React UI starts at http://localhost:8501
+cd ..
+python -m ingest.index
 ```
 
----
+#### 5. Run the Application
 
-## 🚀 Usage
-
-1. Go to **Page A (Ingest Docs)** — upload regulatory PDFs or product T\&Cs.
-2. Switch to **Page B (Query Agent)** — ask queries like:
-
-   * “Why was loan X declined?”
-   * “Which clause justifies KYC Step Y?”
-3. Review:
-
-   * Explanation (with citations)
-   * Confidence scores (ISREL/ISSUP/ISUSE)
-   * Redacted evidence chunks
-   * Suggested follow-up questions
-4. Export **Audit JSON/PDF** for compliance traceability.
-
----
-
-## 📊 Evaluation & Metrics
-
-Metrics are logged to `eval/runs/` and summarized in dashboards:
-
-* **Retrieval Precision (P\@1, P\@3)**
-* **Mean Reciprocal Rank (MRR)** (with vs without reranker)
-* **Citation precision**
-* **ISSUP distribution** (evidence support)
-* **Latency breakdown**
-
-Example run:
-
+**Start Backend API:**
 ```bash
-make eval
-# Produces eval/runs/demo.json and summary charts
+python -m api.app
+# API server starts at http://localhost:8000
 ```
 
----
+**Start Frontend (in new terminal):**
+```bash
+cd frontend
+npm run dev
+# Frontend starts at http://localhost:5173
+```
 
-## 🧑‍🤝‍🧑 Team & Roles
+## 💡 Basic Usage
 
-* **Role A – Data & Ingestion Lead**
+1. **Access the Web Interface**: Open http://localhost:5173 in your browser
 
-  * Ingestion, chunking, embeddings, vector DB
-* **Role B – Reasoning Core Lead**
+2. **Upload Documents**: Navigate to the Upload page to add regulatory PDFs
+   - Supported formats: PDF, text documents
+   - Documents are automatically chunked and indexed
 
-  * SELF-RAG critic, retriever/reranker, generator, provenance
-* **Role C – UI & Safety Lead**
+3. **Ask Questions**: Use the Query interface to ask compliance questions like:
+   - "What are the capital requirements for banks in Nigeria?"
+   - "What are the financial regulations in Kenya"
+   - "What documents are required for KYC verification?"
 
-  * Streamlit UI, PII redaction, metrics, audit exports
+4. **Review Results**: Each response includes:
+   - Evidence-backed explanations with citations
+   - Confidence scores (HIGH, MEDIUM, LOW)
+   - Source document references with exact excerpts
+   - Suggested follow-up questions
 
----
+5. **Monitor Performance**: Check the Metrics dashboard for system performance and audit logs
 
-## 🎥 Demo & Presentation
+## 📁 Repository Structure
 
-* **Demo Video (2–3 min):** \[link placeholder]
-* **Architecture Diagram:** [`diagrams/creditexplain_infra.png`](./diagrams/creditexplain_infra.png)
-* **Data Flow Chart (with examples):** [`diagrams/creditexplain_dataflow.png`](./diagrams/creditexplain_dataflow.png)
+```
+.
+├── .github/                 # GitHub templates and workflows
+├── api/                     # FastAPI backend application
+│   ├── app.py               # Main FastAPI application with CORS
+│   ├── models.py            # Pydantic models for request/response
+│   └── __init__.py
+├── core/                    # RAG pipeline core components
+│   ├── self_rag.py          # Main SELF-RAG orchestration logic
+│   ├── critic.py            # Critic model for retrieval decisions
+│   ├── generator.py         # Response generation component
+│   ├── retrieval.py         # Vector retrieval functionality
+│   ├── reranker.py          # Cross-encoder reranking
+│   ├── prompts.py           # LLM prompt templates
+│   ├── provenance.py        # Audit logging and provenance tracking
+│   └── __init__.py
+├── data/                    # Document storage
+│   ├── raw/                 # Original PDF documents
+│   └── interim/             # Processed data files
+├── frontend/                # React TypeScript frontend
+│   ├── src/
+│   │   ├── api/             # API client and hooks
+│   │   ├── components/      # Reusable UI components
+│   │   ├── pages/           # Main application pages
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── types/           # TypeScript type definitions
+│   │   └── utils/           # Utility functions
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── tsconfig.json
+├── ingest/                  # Document ingestion pipeline
+│   ├── loader.py            # PDF loading and parsing
+│   ├── chunker.py           # Text chunking strategies
+│   ├── index.py             # Vector indexing process
+│   ├── normalize.py         # Text normalization
+│   └── __init__.py
+├── models/                  # Model configurations
+│   ├── critic.py            # Critic model setup
+│   ├── reranker.py          # Reranker model setup
+│   └── __init__.py
+├── eval/                    # Evaluation and metrics
+│   ├── metrics.py           # Performance metrics calculation
+│   └── __init__.py
+├── tests/                   # Test suites
+│   ├── unit/                # Unit tests
+│   ├── integration/         # Integration tests
+│   ├── demo_data/           # Test data
+│   └── scripts/             # Test scripts
+├── requirements.txt         # Python dependencies
+└── README.md               # This file
+```
 
----
+## ⚠️ Known Issues
+
+### Current Limitations
+1. **PDF Parsing Accuracy**: Complex PDF layouts with tables and multi-column formats may not parse perfectly
+2. **Rate Limiting**: Groq API has rate limits that may affect performance during high usage
+3. **Context Length**: Currently limited to ~1000 token chunks due to model constraints
+4. **Metadata Extraction**: Some document metadata (section headers, page numbers) may not be fully preserved
+
+### Performance Considerations
+- Initial document ingestion can be slow for large PDF collections
+- Real-time query processing typically takes 5-15 seconds depending on complexity
+- Vector search performance degrades with very large document collections (>10,000 chunks)
+
+### Browser Compatibility
+- Best experienced in modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile experience is functional but optimized for desktop use
+
+## 🔮 Future Development
+
+### Planned Features
+- [ ] **Real-time Collaboration**: Multi-user support with shared workspaces
+- [ ] **Advanced Document Types**: Support for Word documents, HTML, and scanned PDFs
+- [ ] **Custom Model Support**: Integration with local LLMs and embedding models
+- [ ] **Enhanced Analytics**: Advanced dashboard with trend analysis and compliance reporting
+- [ ] **API Extensions**: Webhook support and third-party integrations
+
+### Research Directions
+- Improved chunking strategies for legal and regulatory documents
+- Multi-hop reasoning across multiple documents
+- Automated regulatory change detection and alerting
+- Cross-jurisdictional compliance mapping
+
+## 🙏 Acknowledgement
+
+This project was developed for the **NSK.AI RAG Hackathon 2025** and builds upon several open-source technologies and research:
+
+- **SELF-RAG Paper** ([Asai et al., 2023](https://arxiv.org/abs/2310.11511)) for the adaptive retrieval framework
+- **LangChain** and **LangSmith** for RAG orchestration tools
+- **HuggingFace** for transformer models and embeddings
+- **FastAPI** for the high-performance backend framework
+- **React Query** for efficient server state management
+
+Special thanks to the regulatory bodies whose documents made this system possible:
+- Central Bank of Nigeria (CBN)
+- Central Bank of Kenya (CBK)
+- Financial Action Task Force (FATF)
+
+## 📞 Contact Information
+
+For questions, issues, or contributions:
+
+- **Project Maintainer**: CreditExplain Team
+<!-- - **Email**: [your-email@example.com] -->
+- **GitHub Issues**: [Create an issue](https://github.com/Maina314159/CreditExplain/issues)
+
+We welcome bug reports, feature requests, and contributions from the community!
 
 ## 📜 License
 
-MIT License (see [LICENSE](./LICENSE)).
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
----
+<div align="center">
+
+**Built with ❤️ for the NSK.AI RAG Hackathon 2025**
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-18%2B-61dafb)](https://reactjs.org/)
+
+</div>

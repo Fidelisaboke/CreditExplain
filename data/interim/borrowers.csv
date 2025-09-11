@@ -1,0 +1,31 @@
+Applicant ID,Age,Gender,Location,Occupation & Employment Status,Monthly Income (₦),Collateral Provided,Credit History / Repayment Record,Outstanding Debt (₦),Requested Loan Amount (₦),Loan Purpose,Eligibility Decision,Rules Triggered,Fairness Flag,Fairness Note
+A01,30,Male,Urban,Engineer (Salaried),350000,No,Good,100000,2000000,Car Purchase,Approved,"R3, R4, R19",No,None
+A02,45,Female,Urban,HR Manager (Salaried),280000,Yes (Property, ₦12M),Good,50000,3000000,Home Renovation,Approved,"R3, R4, R7, R19",No,None
+A03,28,Male,Rural,Trader (Informal),50000,No,Poor (multiple defaults),400000,150000,Business Stock,Rejected,"R3, R4",No,"Applicant has poor credit history and high existing debt relative to income, violating repayment capacity (R4) and due to negative credit bureau checks (R3)."
+A04,52,Female,Urban,University Professor (Salaried),500000,No,Excellent,0,500000,Vacation,Approved,"R3, R4, R19",No,None
+A05,22,Male,Rural,Farmer (Irregular Income),40000,No,None,0,200000,Farming Equipment,Approved,"R1, R2, R4, R6, R15, R19",Yes,"Approved despite irregular low income and no prior history, due to strong guarantor support and loan purpose supporting livelihood, per R15 for rural youth."
+A06,38,Female,Urban,Freelancer (Marketing),80000,No,Fair,150000,1000000,Skill Training,Rejected,"R4",No,"Requested loan amount too high for current income and existing debt, indicating unsustainable repayment capacity (R4)."
+A07,29,Male,Urban,Software Developer (Salaried),200000,No,Good,0,800000,New Laptop,Approved,"R3, R4, R19",No,None
+A08,55,Female,Rural,Bakery Owner (Informal),180000,Yes (Shop Equipment, ₦3M),Good,50000,1000000,Bakery Expansion,Approved,"R3, R4, R7, R19",No,None
+A09,33,Male,Urban,Sales Executive (Salaried),150000,No,Good,20000,600000,Wedding Expenses,Rejected,"R5",No,"Applicant refused to provide explicit written consent for credit report check (R5)."
+A10,68,Female,Urban,Retired (Pensioner),120000,Yes (House Title Deeds, ₦15M),Good,0,1500000,Medical Expenses,Approved,"R1, R2, R3, R4, R7, R16, R19",Yes,"Approved; age is not a barrier as stable pension income and strong collateral ensure repayment capacity, protected under R16 for elderly borrowers."
+A11,40,Male,Urban,Teacher (Salaried),100000,No,Fair,30000,400000,Child's Education,Approved,"R3, R4, R19",No,None
+A12,31,Female,Rural,Hairdresser (Self-employed),70000,Yes (Land Plot, ₦1M),Fair,0,300000,Salon Upgrade,Approved,"R3, R4, R7, R19",No,None
+A13,48,Male,Urban,Civil Servant (Salaried),160000,No,Poor (multiple outstanding loans with defaults),1200000,500000,Debt Consolidation,Rejected,"R3, R4",No,"Extensive poor credit history (R3) and high outstanding debt, demonstrating inability for sustainable repayment (R4)."
+A14,26,Female,Urban,Architect (Salaried),220000,No,Excellent,0,900000,Study Abroad Program,Approved,"R3, R4, R19",No,None
+A15,35,Female,Urban,Petty Trader (Irregular Income),60000,No,Fair,0,300000,Business Expansion,Approved,"R1, R2, R3, R4, R14, R19",Yes,"Approved despite irregular low income, assessed on sustainable repayment capacity and prior positive history, protected under R14 for low-income women entrepreneurs."
+A16,42,Male,Rural,Government Employee (Salaried),150000,Yes (Farm Land, ₦5M),Good,0,2000000,Agricultural Investment,Approved,"R3, R4, R7, R19",No,None
+A17,58,Female,Urban,Small Business Owner (Retail),90000,No,Fair,600000,700000,Working Capital,Rejected,"R4",No,"High existing debt-to-income ratio, making repayment of new loan unsustainable (R4)."
+A18,39,Male,Urban,Doctor (Salaried),600000,Yes (Luxury Car, ₦20M),Excellent,0,5000000,House Down Payment,Approved,"R3, R4, R7, R19",No,None
+A19,25,Female,Urban,Entry-level Analyst (Salaried),110000,No,Good,0,300000,Electronics Purchase,Approved,"R3, R4, R19",No,None
+A20,45,Male,Urban,Freelance Graphic Designer (Physically Challenged),90000,Yes (Car, ₦2.5M),Good,0,700000,Specialized Equipment,Approved,"R1, R2, R3, R4, R7, R19",Yes,"Approved; physical disability is not a basis for discrimination as per R1 and R2; strong collateral and stable income ensure repayment."
+A21,32,Female,Rural,Civil Servant (Salaried),85000,No,Fair,50000,350000,Motorcycle Purchase,Approved,"R3, R4, R19",No,None
+A22,62,Male,Urban,Retired (Casual Work),45000,No,Poor (past bankruptcy),0,100000,Living Expenses,Rejected,"R3, R4",No,"Poor credit history (past bankruptcy) makes applicant high risk, impacting repayment capacity (R4) and credit bureau assessment (R3)."
+A23,37,Female,Urban,Tailor (Self-employed),130000,Yes (Sewing Machines, ₦800k),Good,0,600000,Workshop Expansion,Approved,"R3, R4, R7, R19",No,None
+A24,27,Male,Rural,Teacher (Salaried),70000,No,Good,0,250000,Educational Materials,Approved,"R3, R4, R19",No,None
+A25,28,Female,Rural,Teacher (Salaried),75000,No,None,0,400000,Home Improvement,Approved,"R1, R2, R3, R4, R19",Yes,"Approved as a first-time rural borrower with no credit history, based on stable salaried income demonstrating repayment capacity, aligning with R2 for vulnerable groups and fair treatment."
+A26,50,Male,Urban,Small Business Owner (Tech Repair),100000,No,Good,100000,500000,Business Upgrade,Rejected,"R6",No,"Guarantor initially approved but withdrew explicit written consent (R6), making the loan unsecured and ineligible."
+A27,41,Female,Urban,Online Boutique Owner (Self-employed),250000,Yes (Inventory, ₦2M),Good,0,1000000,Marketing Campaign,Approved,"R3, R4, R7, R19",No,None
+A28,34,Male,Rural,Artisan (Welder),65000,Yes (Workshop Tools, ₦500k),Fair,0,200000,Equipment Upgrade,Approved,"R3, R4, R7, R19",No,None
+A29,49,Female,Urban,Market Vendor (Informal),55000,No,Poor (several small outstanding microloans),250000,100000,Daily Stock,Rejected,"R3, R4",No,"Poor credit history from multiple small defaults (R3) and high existing debt relative to income, indicating unsustainable repayment (R4)."
+A30,20,Female,Urban,Student (Part-time Salaried),30000,No,None,0,100000,Tuition Fees,Approved,"R4, R6, R19",No,"Approved with strong guarantor support, despite low income and no prior credit history. This demonstrates how a strong guarantor (R6) can mitigate credit risk (R4)."

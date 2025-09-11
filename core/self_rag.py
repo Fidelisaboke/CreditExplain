@@ -124,6 +124,7 @@ class SelfRAG:
         """
         run_id = str(uuid.uuid4())
         start_time = time.time()
+        processing_time = 0
         logger.info(f"Starting Self-RAG processing for query: {query[:100]}...")
         
         try:
@@ -213,6 +214,9 @@ class SelfRAG:
                 query, final_answer, top_passages
             )
             final_answer["follow_up_questions"] = follow_up_questions
+
+            # Calculate processing time for successful path
+            processing_time = time.time() - start_time
 
             # Build comprehensive provenance_meta for the new ProvenanceLogger
             provenance_meta = {
@@ -395,51 +399,95 @@ class SelfRAG:
         
         
 if __name__ == "__main__":
-    """Test the Self-RAG system with sample queries and output JSON response."""
+    """Interactive CLI for testing the Self-RAG system."""
     
     # Initialize the Self-RAG system
     rag_system = SelfRAG()
     
-    # Test queries about regulatory compliance
-    test_queries = [
-        "What are the capital requirements for banks in Nigeria?",
-        "How does Basel III affect small financial institutions?",
-        "What are the consumer protection regulations for credit?"
-    ]
+    print("🧠 Welcome to CreditExplain RAG System!")
+    print("=" * 50)
+    print("I'm a specialized AI assistant for financial compliance and credit regulations.")
+    print("I can answer questions based on regulatory documents, internal policies, and model cards.")
+    print("\n💡 Try asking me about:")
+    print("  • Banking regulations in Nigeria or Kenya")
+    print("  • KYC/AML requirements (FATF Recommendations)")
+    print("  • Consumer protection rules")
+    print("  • Capital requirements for financial institutions")
+    print("  • How our credit approval model works")
+    print("\n⏎ Press Enter without typing (or type 'quit') to exit.")
+    print("=" * 50)
     
-    print("🧪 Testing Self-RAG System...")
-    print("=" * 60)
-    
-    for i, query in enumerate(test_queries, 1):
-        print(f"\n📋 Test {i}: {query}")
-        print("-" * 40)
-        
+    while True:
         try:
+            # Get user input
+            user_query = input("\n🤔 Your question: ").strip()
+            
+            # Exit if user presses Enter without input
+            if not user_query:
+                print("\n👋 Thank you for using CreditExplain. Goodbye!")
+                break
+            
+            # Check for exit commands
+            if user_query.lower() in ['exit', 'quit', 'bye']:
+                print("\n👋 Thank you for using CreditExplain. Goodbye!")
+                break
+                
+            print(f"\n🔍 Processing your query...")
+            
             # Run the RAG pipeline
-            result = rag_system.run(query)
+            result = rag_system.run(user_query)
             
-            # Output the full JSON response
-            print("✅ Response JSON:")
-            print(json.dumps(result, indent=2, ensure_ascii=False))
+            # Display results
+            print("\n✅ Answer:")
+            print("-" * 40)
             
-            # Print summary
             if "answer" in result:
                 answer = result["answer"]
-                if "explanation" in answer:
-                    print(f"\n💡 Explanation: {answer['explanation'][:200]}...")
-                if "confidence" in answer:
-                    print(f"🎯 Confidence: {answer.get('confidence', 'UNKNOWN')}")
-            
-            if "error" in result:
-                print(f"❌ Error: {result['error']}")
                 
-            print(f"⏱️  Processing time: {result.get('processing_time', 0):.2f}s")
+                # Handle different answer formats
+                if "explanation" in answer:
+                    print(f"{answer['explanation']}")
+                elif "message" in answer:
+                    print(f"{answer['message']}")
+                    if "best_attempt" in answer and answer["best_attempt"]:
+                        print(f"\n📋 Best attempt: {answer['best_attempt'].get('explanation', '')[:200]}...")
+                
+                # Display confidence
+                if "confidence" in answer:
+                    confidence = answer.get('confidence', 'UNKNOWN')
+                    confidence_icon = "🟢" if confidence == "HIGH" else "🟡" if confidence == "MEDIUM" else "🔴"
+                    print(f"\n{confidence_icon} Confidence: {confidence}")
+                
+                # Display citations if available
+                if "citations" in answer and answer["citations"]:
+                    print(f"\n📚 Citations:")
+                    for i, citation in enumerate(answer["citations"], 1):
+                        doc_id = citation.get('doc_id', 'Unknown Document')
+                        print(f"   {i}. [{doc_id}] {citation.get('text_excerpt', '')[:100]}...")
+                
+                # Display follow-up questions
+                if "follow_up_questions" in answer and answer["follow_up_questions"]:
+                    print(f"\n💭 Suggested follow-up questions:")
+                    for i, question in enumerate(answer["follow_up_questions"][:3], 1):  # Show top 3
+                        print(f"   {i}. {question}")
             
+            # Display errors if any
+            if "error" in result:
+                error_type = result.get('error', 'unknown_error')
+                print(f"\n❌ Error Type: {error_type.replace('_', ' ').title()}")
+            
+            # Display performance metrics
+            processing_time = result.get('processing_time', 0)
+            print(f"\n⏱️  Processing time: {processing_time:.2f}s")
+            print(f"📊 Retrieval performed: {'Yes' if result.get('retrieval_performed', False) else 'No'}")
+            
+            print("-" * 40)
+            
+        except KeyboardInterrupt:
+            print("\n\n👋 Thank you for using CreditExplain. Goodbye!")
+            break
         except Exception as e:
-            print(f"💥 Test failed with error: {e}")
+            print(f"\n💥 Unexpected error: {e}")
             import traceback
             traceback.print_exc()
-        
-        print("-" * 40)
-    
-    print("\n🎉 Self-RAG testing completed!")
+            print("Please try again or contact support.")
