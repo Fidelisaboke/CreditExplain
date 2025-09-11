@@ -1,4 +1,5 @@
 """Complete RAG pipeline test"""
+
 import pytest
 from pathlib import Path
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ from core.generator import GroqGenerator
 
 load_dotenv()
 
+
 @pytest.fixture
 def test_rag_system():
     """Create a complete RAG system for testing"""
@@ -19,7 +21,7 @@ def test_rag_system():
     reranker = LangChainReranker()
     critic = GroqCritic()
     generator = GroqGenerator()
-    
+
     return SelfRAG(
         embed_model=embed_model,
         retriever=retriever,
@@ -27,8 +29,9 @@ def test_rag_system():
         critic=critic,
         generator=generator,
         top_k=10,
-        top_n=3
+        top_n=3,
     )
+
 
 def test_complete_rag_pipeline(test_rag_system):
     """Test the complete RAG pipeline from query to answer"""
@@ -36,22 +39,22 @@ def test_complete_rag_pipeline(test_rag_system):
     test_queries = [
         "What are the capital requirements for banks in Nigeria?",
         "How does Basel III affect small financial institutions?",
-        "What are the consumer protection regulations for credit?"
+        "What are the consumer protection regulations for credit?",
     ]
-    
+
     for query in test_queries:
         result = test_rag_system.run(query)
-        
+
         # Verify response structure
         assert "run_id" in result
         assert "answer" in result
         assert "provenance_meta" in result
-        
+
         answer = result["answer"]
         assert "explanation" in answer
         assert "citations" in answer
         assert "confidence" in answer
-        
+
         # Verify provenance logging
-        assert "audit_path" in result
-        assert Path(result["audit_path"]).exists()
+        assert "audit_id" in result
+        assert Path(result["audit_id"]).exists()
