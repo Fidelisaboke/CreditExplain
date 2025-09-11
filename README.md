@@ -58,6 +58,9 @@ Our solution provides:
 - **cross-encoder/ms-marco-MiniLM-L-6-v2** - Reranker model
 - **Llama 3** - LLMs for generation and critique
 
+<img width="1251" height="576" alt="image" src="https://github.com/user-attachments/assets/7e393d06-cfb0-4189-a135-39943c1a3190" />
+
+
 ## 🚀 Installation & Setup
 
 ### Pre-requisites
