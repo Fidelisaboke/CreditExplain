@@ -1,3 +1,8 @@
+"""
+FastAPI backend server.
+Used to provide REST APIs for the React app to consume.
+"""
+
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List
@@ -17,21 +22,22 @@ METRICS_PATH = "../eval/runs/demo.json"
 app = FastAPI(title="CreditExplain API")
 
 origins = [
-    "http://localhost:5173",        # Vite dev server default
-    "http://127.0.0.1:5173",        # Alternative localhost
+    "http://localhost:5173",  # Vite dev server default
+    "http://127.0.0.1:5173",  # Alternative localhost
 ]
 
-# Add CORS middleware
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,          # List of allowed origins
-    allow_credentials=True,         # Allow cookies/credentials
-    allow_methods=["*"],            # Allow all HTTP methods
-    allow_headers=["*"],            # Allow all headers
+    allow_origins=origins,  # List of allowed origins
+    allow_credentials=True,  # Allow cookies/credentials
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
 )
 
-# instantiate SelfRAG object
+# SelfRAG object
 rag = SelfRAG()
+
 
 @app.post("/query", response_model=QueryResponse)
 async def query_endpoint(payload: QueryIn):
@@ -59,13 +65,14 @@ async def query_endpoint(payload: QueryIn):
             explanation=rag_answer.get("explanation", "No explanation generated."),
             citations=rag_answer.get("citations", []),
             confidence=rag_answer.get("confidence", "LOW"),
-            follow_up_questions=rag_answer.get("follow_up_questions", [])
+            follow_up_questions=rag_answer.get("follow_up_questions", []),
         )
-        
+
         return public_response
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 # Document upload endpoint
 @app.post("/upload")
@@ -82,8 +89,8 @@ async def upload_documents(files: List[UploadFile] = File(...)):
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         saved_files.append(file.filename)
-    # Optionally trigger ingestion pipeline here
     return {"uploaded": saved_files}
+
 
 # List ingested documents endpoint
 @app.get("/documents")
@@ -99,6 +106,7 @@ async def list_documents():
             docs.append({"filename": fname})
     return {"documents": docs}
 
+
 # Metrics endpoint
 @app.get("/metrics")
 async def get_metrics():
@@ -111,6 +119,7 @@ async def get_metrics():
         metrics = json.load(f)
     return metrics
 
+
 # PII redaction stats endpoint (optional)
 @app.get("/pii-stats")
 async def get_pii_stats():
@@ -118,11 +127,9 @@ async def get_pii_stats():
     Return PII redaction statistics.
     """
     # Example: Load from a log or DB
-    stats = {
-        "total_redactions": 156,
-        "documents_scanned": 28
-    }
+    stats = {"total_redactions": 156, "documents_scanned": 28}
     return stats
+
 
 # Document metadata endpoint (optional)
 @app.get("/documents/{filename}")
@@ -137,14 +144,17 @@ async def get_document_metadata(filename: str):
         metadata = json.load(f)
     return metadata
 
+
 @app.get("/audit/{run_id}")
 async def get_audit(run_id: str):
     import os, json
+
     path = f"./audit/audit_{run_id}.json"
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="audit not found")
-    with open(path,'r') as f:
+    with open(path, "r") as f:
         return json.load(f)
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
