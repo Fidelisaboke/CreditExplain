@@ -1,0 +1,26 @@
+{
+  "regulatory_queries": [
+    {
+      "query": "What are the minimum capital requirements for commercial banks?",
+      "expected_topics": ["capital adequacy", "Basel", "reserve requirements"]
+    },
+    {
+      "query": "How does consumer protection apply to credit reporting?",
+      "expected_topics": ["consumer rights", "credit bureau", "data protection"]
+    },
+    {
+      "query": "What are the penalties for non-compliance with anti-money laundering regulations?",
+      "expected_topics": ["AML", "penalties", "compliance"]
+    }
+  ],
+  "edge_cases": [
+    {
+      "query": "Hello, how are you today?",
+      "should_retrieve": false
+    },
+    {
+      "query": "What is the meaning of life?",
+      "should_retrieve": false
+    }
+  ]
+}
