@@ -11,6 +11,7 @@ from typing import Dict, Optional, List
 from dataclasses import dataclass
 
 from langchain_groq import ChatGroq
+from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.runnables import RunnableSerializable
@@ -223,9 +224,7 @@ class OllamaCritic:
             model_name: Ollama model name
             base_url: Ollama server URL
         """
-        try:
-            from langchain_ollama import ChatOllama
-            
+        try:            
             self.llm = ChatOllama(
                 model=model_name,
                 temperature=0.0,
@@ -245,20 +244,14 @@ class OllamaCritic:
             raise
 
     def _create_retrieve_chain(self):
-        """Create retrieval decision chain for Ollama."""
-        from langchain_core.prompts import ChatPromptTemplate
-        from langchain_core.output_parsers import JsonOutputParser
-        
+        """Create retrieval decision chain for Ollama."""        
         prompt = ChatPromptTemplate.from_template(CRITIC_RETRIEVE_PROMPT)
         parser = JsonOutputParser()
         
         return prompt | self.llm | parser
 
     def _create_score_chain(self):
-        """Create scoring chain for Ollama."""
-        from langchain_core.prompts import ChatPromptTemplate
-        from langchain_core.output_parsers import JsonOutputParser
-        
+        """Create scoring chain for Ollama."""        
         prompt = ChatPromptTemplate.from_template(CRITIC_SCORE_PROMPT)
         parser = JsonOutputParser()
         
