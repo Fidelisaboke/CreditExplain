@@ -9,7 +9,7 @@ Built for the **NSK.AI RAG Hackathon 2025**, CreditExplain RAG helps **complianc
 
 The system integrates advanced **RAG techniques** (SELF-RAG critic loop, reranking, provenance logging, PII redaction) to provide trustworthy, auditable explanations.
 
-Try the system here: credit-explain.vercel.app
+Try the system here: https://credit-explain.vercel.app
 
 ## 📋 Table of Contents
 
