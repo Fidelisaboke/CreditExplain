@@ -13,7 +13,7 @@ import os
 import json
 
 from api.models import QueryIn, QueryResponse
-from core.self_rag import SelfRAG
+from core.lazy_loaders.lazy_self_rag import get_self_rag
 
 load_dotenv()
 
@@ -38,9 +38,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# SelfRAG object
-rag = SelfRAG()
-
 
 @app.post("/query", response_model=QueryResponse)
 async def query_endpoint(payload: QueryIn):
@@ -58,6 +55,7 @@ async def query_endpoint(payload: QueryIn):
     """
     try:
         # Get full internal RAG response
+        rag = get_self_rag()
         internal_resp = rag.run(payload.query, case_id=payload.case_id)
 
         # Extract the user-facing answer part
